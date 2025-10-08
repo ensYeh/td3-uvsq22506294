@@ -1,7 +1,9 @@
 package fr.uvsq.cprog.collex;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class AppTest 
@@ -38,6 +40,30 @@ public class AppTest
         //cas nom machine commence/finie par un point
         new NomMachine("ecampus.uvsq.fr.");
         new NomMachine(".ecampus.uvsq.fr");
+    }
+
+
+    @Test(expected = EchecException.class)
+    public void TestDns() throws EchecException{
+
+        AdresseIP ip = new AdresseIP("192.75.52.0");
+        NomMachine machine= new NomMachine("ecampus.uvsq.fr");
+        DnsItem unDnsItem= new DnsItem(machine,ip);
+        Dns dns= new Dns();
+
+        //verification de la valeur retourner cas appel avec NomMachine
+        assertEquals("192.75.52.0 ecampus.uvsq.fr", dns.getItem(machine).toString());
+
+        //verification de la valeur retourner cas appel AdresseIP
+        assertEquals("192.75.52.0 ecampus.uvsq.fr", dns.getItem(ip).toString());
+
+        //test de l'ajout d'une machine existante, une exception doit etre levee
+        AdresseIP ip2 = new AdresseIP("192.75.52.9");
+        dns.addItem(ip2, machine);
+
+        //test de l'ajout d'aresse ip existante, une exception doit etre levee
+        NomMachine machine2= new NomMachine("partage.uvsq.fr");
+        dns.addItem(ip, machine2);
     }
 
 }
