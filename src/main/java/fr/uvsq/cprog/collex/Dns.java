@@ -6,13 +6,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Dns {
+public class Dns  {
 
     private List<DnsItem> basedns= new ArrayList<>();
 
@@ -77,8 +78,7 @@ public class Dns {
     public void addItem(AdresseIP ip, NomMachine machine) throws EchecException{
 
         for(DnsItem line : this.basedns){
-            if(line.getAdresseIP().getIP().equals(ip.getIP()) ) throw new EchecException("Eror : l'adresse ip existe deja ");
-            if(line.getMachine().getMachine().equals(machine.getMachine()) && line.getMachine().getDomaine().equals(machine.getDomaine()))  throw new EchecException("Eror : la machine existe deja ");
+            if(line.getMachine().getMachine().equals(machine.getMachine()) && line.getMachine().getDomaine().equals(machine.getDomaine()) && line.getAdresseIP().getIP().equals(ip.getIP()))  throw new EchecException("Error : la machine existe deja ");
         }
         
         DnsItem nouvel = new DnsItem(machine, ip);
@@ -106,4 +106,28 @@ public class Dns {
         }  
     }
     
+    public void ListerDnsItem(String domaine){
+        if(this.basedns.size()!=0){
+            for(DnsItem line : this.basedns){
+                if(line.getMachine().getDomaine().equals(domaine)) System.out.println(line.toString());
+            }
+        }
+    }
+
+    public void ListerDnsItem_a(String domaine){
+        
+        if(this.basedns.size()!=0){
+            
+            ArrayList<DnsItem> list= new ArrayList<>();
+            for(DnsItem line : this.basedns){
+                
+                if(line.getMachine().getDomaine().equals(domaine)) list.add(line);
+            }
+            
+            Collections.sort(list);
+            for(int i=0;i<list.size();i++){
+                System.out.println(list.get(i).toString());
+            }
+        } else System.out.print("La base du dns est vide \n");
+    }
 }
