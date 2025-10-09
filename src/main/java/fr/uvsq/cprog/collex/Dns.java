@@ -2,42 +2,59 @@ package fr.uvsq.cprog.collex;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Dns {
 
     private List<DnsItem> basedns= new ArrayList<>();
 
-    public Dns(){
+    public Dns() throws EchecException {
 
         Properties prop = new Properties();
         try(FileReader read = new FileReader("config.properties")) {
-            prop.load(read);
-            
+            prop.load(read); 
         } catch (IOException e) {
-            e.getStackTrace();
+            
+            throw new EchecException("Impossible de lire 'config.properties' ");
         }
 
-        String fileName= prop.getProperty("dns.file", "base_base.txt");//valeurs par defaut si asence
+        String fileName= prop.getProperty("dns.file", "base_dns.txt");//valeurs par defaut si absence
+
         Path path = Paths.get(fileName);
-
-        //recharger la base de données
         try{
-            List<String> ligne = Files.readAllLines(path);
-
-            for( String line: ligne){
-                String parts[]= line.split(" ");
-                if(!this.basedns.contains(new DnsItem(new NomMachine(parts[0]), new AdresseIP(parts[1]))))  this.basedns.add(new DnsItem(new NomMachine(parts[0]), new AdresseIP(parts[1])));
-
+            if (Files.notExists(path)) {
+            Files.createFile(path);
             }
         }catch(IOException e){
-            e.printStackTrace();
+            throw new EchecException("Impossible de creer le fichier " + fileName);
         }
+        
+
+        
+        //recharger la base de données
+    
+     try{
+            if(Files.size(path)>1) {
+
+                List<String> ligne = Files.readAllLines(path);
+
+                for( String line: ligne){
+                    String parts[]= line.split(" ");
+                    if(!this.basedns.contains(new DnsItem(new NomMachine(parts[0]), new AdresseIP(parts[1]))) && parts.length!=0) this.basedns.add(new DnsItem(new NomMachine(parts[0]), new AdresseIP(parts[1])));
+                   
+                }  
+            }
+    }catch(IOException e){
+        throw new EchecException("Erreur lors de la lecture de " + fileName);
+     }
     }
 
     public DnsItem getItem(AdresseIP ip){
@@ -47,6 +64,7 @@ public class Dns {
         }
         return null;
     }
+
 
     public DnsItem getItem(NomMachine machine){
 
@@ -66,6 +84,26 @@ public class Dns {
         DnsItem nouvel = new DnsItem(machine, ip);
         this.basedns.add(nouvel);
 
+        //garder le couple dans un fichier
+        String dns = machine.getMachine() + " " + ip.getIP() ;
+        List<String> ligne = Arrays.asList(dns);
+
+        Properties prop = new Properties();
+        try(FileReader read = new FileReader("config.properties")) {
+            prop.load(read);
+            
+        } catch (IOException e) {
+            throw new EchecException("Impossible de  lire 'config.properties'" );
+        }
+
+        String fileName= prop.getProperty("dns.file", "base_dns.txt");//valeurs par defaut si asence
+        Path path = Paths.get(fileName);
+
+        try{
+            Files.write(path, ligne, StandardCharsets.UTF_8,StandardOpenOption.CREATE ,StandardOpenOption.APPEND);
+        } catch(IOException e){
+            throw new EchecException("Impossible d'ecrir dans le fichier "+ fileName);
+        }  
     }
     
 }

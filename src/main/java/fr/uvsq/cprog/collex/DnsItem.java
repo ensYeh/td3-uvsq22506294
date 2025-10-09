@@ -18,27 +18,26 @@ public class DnsItem {
         this.addIp=addip;
         this.machine=nmachine;
 
-        //garder le couple dans un fichier
-        String dns = nmachine.getMachine() + " " + addip.getIP() ;
-        List<String> ligne = Arrays.asList(dns);
+        // //garder le couple dans un fichier
+        // String dns = nmachine.getMachine() + " " + addip.getIP() ;
+        // List<String> ligne = Arrays.asList(dns);
 
-        Properties prop = new Properties();
-
-        try(FileReader read = new FileReader("config.properties")) {
-            prop.load(read);
+        // Properties prop = new Properties();
+        // try(FileReader read = new FileReader("config.properties")) {
+        //     prop.load(read);
             
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
+        // } catch (IOException e) {
+        //     e.getStackTrace();
+        // }
 
-        String fileName= prop.getProperty("dns.file", "base_base.txt");//valeurs par defaut si asence
-        Path path = Paths.get(fileName);
+        // String fileName= prop.getProperty("dns.file", "base_dns.txt");//valeurs par defaut si asence
+        // Path path = Paths.get(fileName);
 
-        try{
-            Files.write(path, ligne, StandardCharsets.UTF_8,StandardOpenOption.CREATE ,StandardOpenOption.APPEND);
-        } catch(IOException e){
-            e.printStackTrace();
-        }  
+        // try{
+        //     Files.write(path, ligne, StandardCharsets.UTF_8,StandardOpenOption.CREATE ,StandardOpenOption.APPEND);
+        // } catch(IOException e){
+        //     e.printStackTrace();
+        // }  
 
     }
     
