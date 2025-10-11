@@ -4,20 +4,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Collections;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
-public class Dns  {
+public class DnsTest {
 
     private List<DnsItem> basedns= new ArrayList<>();
 
-    public Dns() throws EchecException {
+    public DnsTest() throws EchecException {
 
         Properties prop = new Properties();
         try(FileReader read = new FileReader("config.properties")) {
@@ -27,7 +27,7 @@ public class Dns  {
             throw new EchecException("Impossible de lire 'config.properties' ");
         }
 
-        String fileName= prop.getProperty("dns.file", "base_dns.txt");//valeurs par defaut si absence
+        String fileName= prop.getProperty("dnsTest.file", "dns_test.txt");//valeurs par defaut si absence
 
         Path path = Paths.get(fileName);
         try{
@@ -58,10 +58,6 @@ public class Dns  {
      }
     }
 
-    public List<DnsItem> getBaseDns(){
-        return this.basedns;
-    }
-    
     public DnsItem getItem(AdresseIP ip){
 
         for(DnsItem line : this.basedns){
@@ -100,7 +96,7 @@ public class Dns  {
             throw new EchecException("Impossible de  lire 'config.properties'" );
         }
 
-        String fileName= prop.getProperty("dns.file", "base_dns.txt");//valeurs par defaut si asence
+        String fileName= prop.getProperty("dnsTest.file", "dns_test.txt");//valeurs par defaut si asence
         Path path = Paths.get(fileName);
 
         try{
@@ -115,7 +111,7 @@ public class Dns  {
             for(DnsItem line : this.basedns){
                 if(line.getMachine().getDomaine().equals(domaine)) System.out.println(line.toString());
             }
-        } else System.out.print("La base du dns est vide \n");
+        }
     }
 
     public void ListerDnsItem_a(String domaine){
@@ -134,4 +130,5 @@ public class Dns  {
             }
         } else System.out.print("La base du dns est vide \n");
     }
+    
 }
