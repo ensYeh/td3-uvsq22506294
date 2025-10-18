@@ -4,12 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class AppTest 
 {
+    DnsTest dns;
+
     @Test(expected=IllegalArgumentException.class)
     public void TestAdresseIP(){
 
@@ -48,7 +53,7 @@ public class AppTest
     @Test(expected = EchecException.class)
     public void TestDns() throws EchecException{
 
-            DnsTest dns= new DnsTest();
+            dns= new DnsTest("test1");
             AdresseIP ip = new AdresseIP("192.75.52.0");
             NomMachine machine= new NomMachine("ecampus.uvsq.fr");
             dns.addItem(ip, machine);
@@ -70,6 +75,35 @@ public class AppTest
 
 
 
-}
+    }   
 
+    @Test(expected=EchecException.class)
+    public void testDnsItem() throws EchecException{
+        new DnsItem(new NomMachine("ecampus.uvsq.fr"), null);
+        new DnsItem(null, new AdresseIP("123.4.5.6"));
+        new DnsItem(null, null);
+    }
+
+   
+    
+    @Test(expected=EchecException.class)
+    public void testtypeCommande() throws EchecException{
+
+        //test addCommande
+        new AddCommande(new NomMachine("ecampus.uvsq.fr"),null);
+        new AddCommande(new NomMachine("ecampus.uvsq"),null);
+        new AddCommande(null,new AdresseIP("123.4.5.6"));
+        new AddCommande(null,new AdresseIP("123.4.5"));
+        new AddCommande(null,null);
+
+        //test ipCommande
+        new IpCommande(null);
+
+        //test nameCommande
+        new NameCommande(null);
+
+
+    }
+
+    
 }

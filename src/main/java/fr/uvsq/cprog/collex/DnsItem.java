@@ -14,9 +14,15 @@ public class DnsItem implements Comparable<DnsItem>{
     private final NomMachine machine;
     private final AdresseIP addIp;
     
-    public DnsItem(NomMachine nmachine,AdresseIP addip){
-        this.addIp=addip;
-        this.machine=nmachine;
+    public DnsItem(NomMachine nmachine,AdresseIP addip )throws EchecException {
+        if(nmachine!=null && addip!=null){
+            this.addIp=addip;
+            this.machine=nmachine;
+        } else{
+            if(nmachine==null) throw new EchecException("ERROR: Le nom de la machine ne doit pas etre null");
+            else  throw new EchecException("ERROR: L'adresse ip ne doit pas etre null");
+        }
+        
     }
     
     public NomMachine getMachine(){
@@ -34,6 +40,7 @@ public class DnsItem implements Comparable<DnsItem>{
 
     @Override
     public int compareTo(DnsItem autre) {
+        
         return this.addIp.getIP().compareTo(autre.getAdresseIP().getIP());
     }
 

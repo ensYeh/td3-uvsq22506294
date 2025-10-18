@@ -12,7 +12,7 @@ public class DnsTUI{
     }
     
 
-    public Commande nextCommande(){
+    public Commande nextCommande() throws EchecException{ 
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("> ");
@@ -59,6 +59,9 @@ public class DnsTUI{
                 }
             case "exit":{
                     return new ExitCommande();
+                }
+            case "help":{
+                    return new HelpCommande();
                 }
             default:
                 {

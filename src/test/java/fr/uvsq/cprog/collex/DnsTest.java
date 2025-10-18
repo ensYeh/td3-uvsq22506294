@@ -16,8 +16,10 @@ import java.util.Properties;
 public class DnsTest {
 
     private List<DnsItem> basedns= new ArrayList<>();
+    String fichier;
 
-    public DnsTest() throws EchecException {
+    public DnsTest(String fichier) throws EchecException {
+        this.fichier=fichier;
 
         Properties prop = new Properties();
         try(FileReader read = new FileReader("config.properties")) {
@@ -27,7 +29,7 @@ public class DnsTest {
             throw new EchecException("Impossible de lire 'config.properties' ");
         }
 
-        String fileName= prop.getProperty("dnsTest.file", "dns_test.txt");//valeurs par defaut si absence
+        String fileName= prop.getProperty("dnsTest.file", this.fichier);//valeurs par defaut si absence
 
         Path path = Paths.get(fileName);
         try{
@@ -96,7 +98,7 @@ public class DnsTest {
             throw new EchecException("Impossible de  lire 'config.properties'" );
         }
 
-        String fileName= prop.getProperty("dnsTest.file", "dns_test.txt");//valeurs par defaut si asence
+        String fileName= prop.getProperty("dnsTest.file", this.fichier);//valeurs par defaut si asence
         Path path = Paths.get(fileName);
 
         try{

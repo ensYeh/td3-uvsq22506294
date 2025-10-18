@@ -4,8 +4,9 @@ public class IpCommande implements Commande {
 
     private NomMachine machine;
 
-    public IpCommande(NomMachine nom){
-        this.machine=nom;
+    public IpCommande(NomMachine nom)  throws EchecException{
+        if(nom!=null) this.machine=nom;
+        else throw new EchecException("ERROR: Le nom de la machine ne peut pas etre null");
     }
     
     @Override

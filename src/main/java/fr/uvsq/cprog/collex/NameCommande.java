@@ -4,8 +4,9 @@ public class NameCommande implements Commande {
 
     private AdresseIP ip;
 
-    public NameCommande(AdresseIP Ip){
-        this.ip=Ip;
+    public NameCommande(AdresseIP Ip) throws EchecException{
+        if(Ip!=null) this.ip=Ip;
+        else throw new EchecException("ERROR: L'adresse ip ne peut pas etre null");
     }
     
     @Override
