@@ -111,7 +111,7 @@ public class AppTest
     }
 
      @Test(expected = EchecException.class)
-    public void TestAddCommande() throws EchecException{
+    public void TestCommande() throws EchecException{
         
         AdresseIP ip = new AdresseIP("192.4.5.0");
         NomMachine machine= new NomMachine("ecampus.uvsq.fr");
@@ -140,17 +140,6 @@ public class AppTest
         assertEquals("ecampus.uvsq.fr", machine_cmd.getMachine().toString());
     }
 
-    
-    // @Test
-    // public void TestNameCommande() throws EchecException{
-    //     AdresseIP ip= new AdresseIP("192.4.5.0");
-    //     NameTest machine=new NameTest(ip);
-    //     machine.execute(dns);
-
-    //     //verifier si la commande name retourne bien le nom machine de l'@ passée en paramettre
-    //     assertEquals("ecampus.uvsq.fr", machine.getMachine().toString());
-
-    // }
 
     
 }
