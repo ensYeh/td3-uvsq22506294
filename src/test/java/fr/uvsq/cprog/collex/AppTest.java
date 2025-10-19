@@ -117,35 +117,25 @@ public class AppTest
         AddTest add = new AddTest(machine, ip);
         add.execute(dns);
         
+    //test add commande
         //verification que l'adresse et le nom machine sont bien ajouter au dns
         assertEquals("192.4.5.0 ecampus.uvsq.fr", dns.getItem(ip).toString());
         assertEquals("192.4.5.0 ecampus.uvsq.fr", dns.getItem(machine).toString());
-
         //cas ajout d'une adresse existante, une exception doit etre levée
         AddTest add2 = new AddTest(machine, ip);
         add2.execute(dns);
-    }
 
-    @Test
-    public void TestIpCommande() throws EchecException{
-        NomMachine machine= new NomMachine("ecampus.uvsq.fr");
-        IpTest ip=new IpTest(machine);
-        ip.execute(dns);
-
+    //test ip commande
+        IpTest ip_cmd=new IpTest(machine);
+        ip_cmd.execute(dns);
         //verifier si la commande ip retourne bien l'adresse ip du nom machine passé en paramettre
-        assertEquals("192.4.5.0", ip.getIp().toString());
+        assertEquals("192.4.5.0", ip_cmd.getIp().toString());
 
-    }
-
-    @Test
-    public void TestNameCommande() throws EchecException{
-        AdresseIP ip= new AdresseIP("192.4.5.0");
-        NameTest machine=new NameTest(ip);
-        machine.execute(dns);
-
+    //test name commande
+        NameTest machine_cmd=new NameTest(ip);
+        machine_cmd.execute(dns);
         //verifier si la commande name retourne bien le nom machine de l'@ passée en paramettre
-        assertEquals("ecampus.uvsq.fr", machine.getMachine().toString());
-
+        assertEquals("ecampus.uvsq.fr", machine_cmd.getMachine().toString());
     }
 
     
