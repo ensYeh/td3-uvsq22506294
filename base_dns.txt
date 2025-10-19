@@ -1,5 +1,0 @@
-ecampus.uvsq.fr 192.35.4.0
-ecampus.uvsq.dz 135.4.0.2
-ecampus.uvsq.mc 112.4.56.0
-ecampus.uvsq.dz 95.6.45.0
-ecampus.uvsq.dz 0.0.0.0
