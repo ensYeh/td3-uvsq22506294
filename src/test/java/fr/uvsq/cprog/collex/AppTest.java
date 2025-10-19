@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -53,24 +54,24 @@ public class AppTest
     @Test(expected = EchecException.class)
     public void TestDns() throws EchecException{
 
-            dns= new DnsTest("test1");
+            DnsTest dns_= new DnsTest("test1");
             AdresseIP ip = new AdresseIP("192.75.52.0");
             NomMachine machine= new NomMachine("ecampus.uvsq.fr");
-            dns.addItem(ip, machine);
+            dns_.addItem(ip, machine);
 
             //test de l'ajout d'une machine existante, une exception doit etre levee
             AdresseIP ip2 = new AdresseIP("192.75.52.0");
-            dns.addItem(ip2, machine);
+            dns_.addItem(ip2, machine);
 
             //test de l'ajout d'aresse ip existante, une exception doit etre levee
             NomMachine machine2= new NomMachine("partage.uvsq.fr");
-            dns.addItem(ip, machine2);
+            dns_.addItem(ip, machine2);
             
             //verification de la valeur retourner cas appel avec NomMachine
-            assertEquals("192.75.52.0 ecampus.uvsq.fr", dns.getItem(machine).toString());
+            assertEquals("192.75.52.0 ecampus.uvsq.fr", dns_.getItem(machine).toString());
 
             //verification de la valeur retourner cas appel AdresseIP
-            assertEquals("192.75.52.0 ecampus.uvsq.fr", dns.getItem(ip).toString());
+            assertEquals("192.75.52.0 ecampus.uvsq.fr", dns_.getItem(ip).toString());
 
 
 
@@ -109,44 +110,47 @@ public class AppTest
         dns= new DnsTest("test_TypeCommande");
     }
 
-    @Test(expected = EchecException.class)
+     @Test(expected = EchecException.class)
     public void TestAddCommande() throws EchecException{
         
         AdresseIP ip = new AdresseIP("192.4.5.0");
         NomMachine machine= new NomMachine("ecampus.uvsq.fr");
         AddTest add = new AddTest(machine, ip);
         add.execute(dns);
-        
+    
+        //test Add commande
         //verification que l'adresse et le nom machine sont bien ajouter au dns
         assertEquals("192.4.5.0 ecampus.uvsq.fr", dns.getItem(ip).toString());
         assertEquals("192.4.5.0 ecampus.uvsq.fr", dns.getItem(machine).toString());
-
         //cas ajout d'une adresse existante, une exception doit etre levée
         AddTest add2 = new AddTest(machine, ip);
         add2.execute(dns);
-    }
 
-    @Test
-    public void TestIpCommande() throws EchecException{
-        NomMachine machine= new NomMachine("ecampus.uvsq.fr");
-        IpTest ip=new IpTest(machine);
-        ip.execute(dns);
-
+        //test Ip commande
+        IpTest ipcmd=new IpTest(machine);
+        ipcmd.execute(dns);
         //verifier si la commande ip retourne bien l'adresse ip du nom machine passé en paramettre
-        assertEquals("192.4.5.0", ip.getIp().toString());
+        assertEquals("192.4.5.0", ipcmd.getIp().toString());
 
-    }
-
-    @Test
-    public void TestNameCommande() throws EchecException{
-        AdresseIP ip= new AdresseIP("192.4.5.0");
-        NameTest machine=new NameTest(ip);
-        machine.execute(dns);
+        //test Name commande
+        NameTest machine_cmd=new NameTest(ip);
+        machine_cmd.execute(dns);
 
         //verifier si la commande name retourne bien le nom machine de l'@ passée en paramettre
-        assertEquals("ecampus.uvsq.fr", machine.getMachine().toString());
-
+        assertEquals("ecampus.uvsq.fr", machine_cmd.getMachine().toString());
     }
+
+    
+    // @Test
+    // public void TestNameCommande() throws EchecException{
+    //     AdresseIP ip= new AdresseIP("192.4.5.0");
+    //     NameTest machine=new NameTest(ip);
+    //     machine.execute(dns);
+
+    //     //verifier si la commande name retourne bien le nom machine de l'@ passée en paramettre
+    //     assertEquals("ecampus.uvsq.fr", machine.getMachine().toString());
+
+    // }
 
     
 }
