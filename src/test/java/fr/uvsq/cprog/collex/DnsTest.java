@@ -60,6 +60,11 @@ public class DnsTest {
      }
     }
 
+     public List<DnsItem> getBaseDns(){
+        return this.basedns;
+    }
+    
+
     public DnsItem getItem(AdresseIP ip){
 
         for(DnsItem line : this.basedns){

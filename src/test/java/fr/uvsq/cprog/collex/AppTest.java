@@ -57,7 +57,6 @@ public class AppTest
             AdresseIP ip = new AdresseIP("192.75.52.0");
             NomMachine machine= new NomMachine("ecampus.uvsq.fr");
             dns.addItem(ip, machine);
-            
 
             //test de l'ajout d'une machine existante, une exception doit etre levee
             AdresseIP ip2 = new AdresseIP("192.75.52.0");
@@ -102,6 +101,50 @@ public class AppTest
         //test nameCommande
         new NameCommande(null);
 
+    }
+
+
+    @Before
+    public void initialisation() throws EchecException{
+        dns= new DnsTest("test_TypeCommande");
+    }
+
+    @Test(expected = EchecException.class)
+    public void TestAddCommande() throws EchecException{
+        
+        AdresseIP ip = new AdresseIP("192.4.5.0");
+        NomMachine machine= new NomMachine("ecampus.uvsq.fr");
+        AddTest add = new AddTest(machine, ip);
+        add.execute(dns);
+        
+        //verification que l'adresse et le nom machine sont bien ajouter au dns
+        assertEquals("192.4.5.0 ecampus.uvsq.fr", dns.getItem(ip).toString());
+        assertEquals("192.4.5.0 ecampus.uvsq.fr", dns.getItem(machine).toString());
+
+        //cas ajout d'une adresse existante, une exception doit etre levée
+        AddTest add2 = new AddTest(machine, ip);
+        add2.execute(dns);
+    }
+
+    @Test
+    public void TestIpCommande() throws EchecException{
+        NomMachine machine= new NomMachine("ecampus.uvsq.fr");
+        IpTest ip=new IpTest(machine);
+        ip.execute(dns);
+
+        //verifier si la commande ip retourne bien l'adresse ip du nom machine passé en paramettre
+        assertEquals("192.4.5.0", ip.getIp().toString());
+
+    }
+
+    @Test
+    public void TestNameCommande() throws EchecException{
+        AdresseIP ip= new AdresseIP("192.4.5.0");
+        NameTest machine=new NameTest(ip);
+        machine.execute(dns);
+
+        //verifier si la commande name retourne bien le nom machine de l'@ passée en paramettre
+        assertEquals("ecampus.uvsq.fr", machine.getMachine().toString());
 
     }
 
