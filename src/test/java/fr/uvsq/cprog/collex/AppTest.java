@@ -65,6 +65,9 @@ public class AppTest
             //test de l'ajout d'aresse ip existante, une exception doit etre levee
             NomMachine machine2= new NomMachine("partage.uvsq.fr");
             dns.addItem(ip, machine2);
+
+            //test ajout d'une machine avec 2 @ diff
+            dns.addItem(new AdresseIP("165.3.2.1"), machine2);
             
             //verification de la valeur retourner cas appel avec NomMachine
             assertEquals("192.75.52.0 ecampus.uvsq.fr", dns.getItem(machine).toString());

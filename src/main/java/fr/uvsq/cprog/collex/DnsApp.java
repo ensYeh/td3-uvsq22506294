@@ -16,7 +16,7 @@ public class DnsApp {
                            "\t\t ip <nom>: Recherche l'adresse associé à une nom \n" +
                            "\t\t name <ip> : Recherche le nom associé à une ip \n" +
                            "\t\t ls <domaine> : Liste les machines du domaine \n" +
-                           "\t\t ls-a <domaine> : Liste les machines du domaine triés par adresses ip \n" +
+                           "\t\t ls -a <domaine> : Liste les machines du domaine triés par adresses ip \n" +
                            "\t\t help : Afficher la table de commande \n" +
                            "\t\t exit : Quitter le programme" );
 

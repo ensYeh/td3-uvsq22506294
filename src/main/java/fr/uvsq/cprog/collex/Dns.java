@@ -82,7 +82,12 @@ public class Dns  {
     public void addItem(AdresseIP ip, NomMachine machine) throws EchecException{
 
         for(DnsItem line : this.basedns){
+            
+            //cas adresse ip et machine existant
             if(line.getMachine().getMachine().equals(machine.getMachine()) && line.getMachine().getDomaine().equals(machine.getDomaine()) && line.getAdresseIP().getIP().equals(ip.getIP()))  throw new EchecException("Error : la machine existe deja ");
+            //cas meme machine meme domaine , 2 @ diff
+            if((line.getMachine().getMachine().equals(machine.getMachine()) && line.getMachine().getDomaine().equals(machine.getDomaine() ) ))  throw new EchecException("Error : la machine existe deja ");
+       
         }
         
         DnsItem nouvel = new DnsItem(machine, ip);

@@ -18,7 +18,9 @@ public class DnsTUI{
         System.out.println("> ");
         String ligne = scanner.nextLine().trim();
         String[] parts = ligne.split(" ");
-        String cmd= parts[0].toLowerCase();
+        String cmd;
+        if((parts.length == 3 )&& (parts[0].equals("ls"))) cmd="ls-a";
+        else cmd= parts[0].toLowerCase();
        
 
         switch (cmd) {
@@ -51,11 +53,11 @@ public class DnsTUI{
                     return new LsCommande(parts[1]);
                 }
             case "ls-a":{
-                    if(parts.length<2){
+                    if(parts.length<3){
                         System.out.println("Usage : ls-a <domaine> ");
                         return null;
                     }
-                    return new Ls_a_Commande(parts[1]);
+                    return new Ls_a_Commande(parts[2]);
                 }
             case "exit":{
                     return new ExitCommande();

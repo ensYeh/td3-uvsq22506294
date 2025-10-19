@@ -41,7 +41,20 @@ public class DnsItem implements Comparable<DnsItem>{
     @Override
     public int compareTo(DnsItem autre) {
         
-        return this.addIp.getIP().compareTo(autre.getAdresseIP().getIP());
-    }
+        // return this.addIp.getIP().compareTo(autre.getAdresseIP().getIP());
 
+        String[] part= this.addIp.getIP().split("\\.");
+        String[] Autre= autre.addIp.getIP().split("\\.");
+
+        for (int i = 0; i < 4; i++) {
+            int thisPart = Integer.parseInt(part[i]);
+            int otherPart = Integer.parseInt(Autre[i]);
+
+            if (thisPart < otherPart) return -1;
+            else if (thisPart > otherPart) return 1;
+        }
+
+        return 0;
+    }
+    
 }
